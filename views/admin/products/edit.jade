@@ -1,0 +1,44 @@
+.modal-header
+	button.close(type="button", aria-label="Close", ng-click="cancel()")
+		span(aria-hidden="true") &times;
+	h4.modal-title= title
+
+.modal-body
+	.alert.alert-info(data-ng-show="messages", data-ng-bind="messages")
+	form(name="form", novalidate)
+		.form-group(ng-class="{ 'has-error' : submitted && !form.category.$pristine }")
+			label(for="product-category") Product category
+			select#product-category.form-control(name="category", ng-model="product.category",
+			ng-options="category._id as category.name for category in categories", required)
+				option(value="") Please select category
+			p.help-block(ng-show="submitted && form.category.$error.required") Product category is required!
+
+		.form-group(ng-class="{ 'has-error' : submitted && !form.name.$pristine }")
+			label(for="product-name") Product name
+			input#product-name.form-control(type="text", placeholder="Please enter product name", name="name",
+			ng-model="product.name", ng-minlength="3", ng-maxlength="255", required)
+			p.help-block(ng-show="submitted && form.name.$error.required") Product name is required!
+			p.help-block(ng-show="submitted && form.name.$error.minlength") Product name is too short.
+			p.help-block(ng-show="submitted && form.name.$error.maxlength") Product name is too long.
+
+		.form-group(ng-class="{ 'has-error' : submitted && !form.description.$pristine }")
+			label(for="product-description") Product description
+			textarea#product-description.form-control(type="text", rows="5", name="description",
+			ng-model="product.description", ng-minlength="20", ng-maxlength="1000",
+			placeholder="Please enter product description", required)
+			p.help-block(ng-show="submitted && form.description.$error.required") Product description is required!
+			p.help-block(ng-show="submitted && form.description.$error.minlength") Product description is too short.
+			p.help-block(ng-show="submitted && form.description.$error.maxlength") Product description is too long.
+
+		.form-group(ng-class="{ 'has-error' : submitted && !form.cost.$pristine }")
+			label(for="product-cost") Product cost
+			.input-group
+				input#product-cost.form-control(type="number", name="cost",
+				ng-model="product.cost", placeholder="Please enter cost product", required)
+				.input-group-addon $
+		p.help-block(ng-show="submitted && form.cost.$error.number") Please use only numbers!
+			p.help-block(ng-show="submitted && form.cost.$error.required") Product cost is required!
+
+.modal-footer
+	button.btn.btn-default(type='button', ng-click='cancel()') Cancel
+	button.btn.btn-primary(type='button', ng-click="save(form, '#{product._id}')") Save

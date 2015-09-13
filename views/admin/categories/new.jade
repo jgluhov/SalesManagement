@@ -1,0 +1,30 @@
+.modal-header
+	button.close(type="button", aria-label="Close", ng-click="cancel()")
+		span(aria-hidden="true") &times;
+	h4.modal-title= title
+
+.modal-body
+	.alert.alert-info(data-ng-show="messages", data-ng-bind="messages")
+	form(name="form", novalidate)
+		.form-group(ng-class="{ 'has-error' : submitted && !form.name.$pristine }")
+			label(for="category-name") Category name
+			input#category-name.form-control(type="text", placeholder="Please enter category name", name="name",
+			ng-model="category.name", ng-minlength="3", ng-maxlength="255",
+			ng-pattern="/^[а-яА-Яa-zA-Z0-9]/", required)
+			p.help-block(ng-show="submitted && form.name.$error.required") Category name is required!
+			p.help-block(ng-show="submitted && form.name.$error.minlength") Category name is too short.
+			p.help-block(ng-show="submitted && form.name.$error.maxlength") Category name is too long.
+		.form-group(ng-class="{ 'has-error' : submitted && !form.description.$pristine }")
+			label(for="category-description") Category description
+			textarea#category-description.form-control(type="text", rows="5", name="description",
+			ng-model="category.description", ng-minlength="20", ng-maxlength="1000",
+			placeholder="Please enter category description", required)
+			p.help-block(ng-show="submitted && form.description.$error.required") Category description is required!
+			p.help-block(ng-show="submitted && form.description.$error.minlength") Category description is too short.
+			p.help-block(ng-show="submitted && form.description.$error.maxlength") Category description is too long.
+
+.modal-footer
+	button.btn.btn-default(type='button', ng-click='cancel()') Cancel
+	button.btn.btn-primary(type='button', ng-click='save(form)') Save
+
+

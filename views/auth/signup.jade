@@ -1,0 +1,26 @@
+.modal-header
+	button.close(type="button", aria-label="Close", ng-click="cancel()")
+		span(aria-hidden="true") &times;
+	.modal-title Signup
+	.modal-body
+		alert.alert-danger(data-ng-show="message", data-ng-bind="message")
+		form(name="form" novalidate)
+			.form-group(ng-class="{ 'has-error' : submitted && !form.name.$pristine }")
+				label(for="signup-name") User name
+				input#signup-name.form-control(type="text", placeholder="Please enter username", name="name",
+				ng-model="user.name", ng-minlength="3", ng-maxlength="20",
+				ng-pattern="/^[а-яА-Яa-zA-Z0-9]/", required)
+				p.help-block(ng-show="submitted && form.name.$error.required") Username is required!
+				p.help-block(ng-show="submitted && form.name.$error.minlength") Username name is too short.
+				p.help-block(ng-show="submitted && form.name.$error.maxlength") Username name is too long.
+			.form-group(ng-class="{ 'has-error' : submitted && !form.password.$pristine }")
+				label(for="signup-password") User password
+				input#signup-password.form-control(type="password", name="password", ng-trim="false",
+				ng-model="user.password", ng-minlength="3", ng-maxlength="15",
+				placeholder="Please enter password", required)
+				p.help-block(ng-show="submitted && form.password.$error.required") Password is required!
+				p.help-block(ng-show="submitted && form.password.$error.minlength") Password is too short.
+				p.help-block(ng-show="submitted && form.password.$error.maxlength") Password is too long.
+
+	.modal-footer
+		button.btn.btn-primary(type="button", ng-click="signup(form)") Signup

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  include partials/navbar
+  .container(ng-cloak, ng-app="shopModule", ng-controller="viewShopController")
+    .page-header
+      h1= title
+      small Welcome to #{title}
+      .tm-cart.pull-right
+        i.glyphicon.glyphicon-shopping-cart.tm-icon
+        a(href="/shop/cart")
+          | Cart
+          span.badge.tm-badge(ng-model="cart.number", ng-bind="cart.number")
+      .clearfix
+
+    .row(ng-repeat="block in products")
+      .col-xs-12.col-md-4(ng-repeat="product in block")
+        .thumbnail
+          .caption
+            h3(ng-bind="product.name")
+            p.text-muted Category: {{ product._category.name }}
+            p.small(ng-bind-html="product.description")
+            p.lead
+              span.label.label-primary {{ product.cost | currency: $}}
+            button.btn.btn-success(role="button" ng-click="puts(product._id)") Buy
+block footer
+  include ./partials/footer
+
+
+

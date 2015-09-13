@@ -1,0 +1,21 @@
+extends ../../layout
+block content
+	include ../../partials/navbar
+	.container(ng-app="productsModule", ng-controller="showProductsController")
+		.row
+			.col-xs-12
+				include ../../partials/breadcrumbs
+				.pull-left.lead= title
+				.pull-right
+					button.btn.btn-link(type="button" ng-click="updateProduct()")
+						i.glyphicon.glyphicon-plus
+				.clearfix
+				dl
+					dt Product name
+					dd(ng-bind="product.name")
+					dt Category description
+					dd(ng-bind="product.description")
+					dt Category description
+					dd(ng-bind="product.cost | currency: $ : 2")
+					dt Date created
+					dd(ng-bind="product.created | date : 'MMMM d, yyyy  h:mm a'")

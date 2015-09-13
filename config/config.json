@@ -1,0 +1,21 @@
+{
+  "port": 3000,
+  "mongoose": {
+    "uri": "mongodb://jgluhov:Mathemat1cs@ds033400.mongolab.com:33400/database",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  },
+  "session": {
+    "secret": "SalesManagementWebApp",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
+  }
+}

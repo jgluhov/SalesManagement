@@ -1,0 +1,66 @@
+extends ../layout
+block content
+	include ../partials/navbar
+	.container(ng-cloak, ng-app="cartModule", ng-controller="viewCartController")
+		include ../partials/breadcrumbs
+		.lead= title
+		table.table.table-bordered.table-condensed
+			thead
+				tr
+					td Name
+					td Description
+					td Cost
+					td Quantity
+					td Amount
+					td Created
+					td Actions
+			tbody
+				tr(ng-if="items.length == 0")
+					td(colspan="7") There are nothing here yet!
+				tr(ng-repeat="item in items | filter:search")
+					td(ng-bind="item.product.name")
+					td(ng-bind-html="item.product.description")
+					td(ng-bind="item.product.cost | currency: $ : 2")
+					td
+						.form-group(ng-class="{ 'has-error' : submitted && !quantity.$pristine }")
+							input.form-control(type="number", ng-model="quantity", ng-max="300", ng-min="0", value="{{item.quantity}}")
+					td(ng-bind="(item.amount = item.product.cost * item.quantity) | currency: $ : 2")
+					td(ng-bind="item.product.created | date : 'MMMM d, yyyy  h:mm a'")
+					td
+						.btn-group(role="group")
+							button.btn.btn-link(ng-click="removeItem(item.product._id, $index)")
+								i.glyphicon.glyphicon-remove
+		.pull-right
+			button.btn.btn-success.btn-block(ng-click="checkout()") Checkout
+		.clearfix
+		hr
+		.lead Orders
+		div(ng-if="orders.length == 0")
+			p There are nothing here yet!
+		div(ng-repeat="order in orders | filter:search")
+			p(ng-bind="'Order #' + ($index + 1)")
+			table.table.table-bordered.table-condensed
+				thead
+					tr
+						td Name
+						td Description
+						td Cost
+						td Quantity
+						td Amount
+						td Created
+				tbody
+					tr(ng-if="order.goods.length == 0")
+						td(colspan="7") There are nothing here yet!
+					tr(ng-repeat="item in order.goods | filter:search")
+						td(ng-bind="item.product.name")
+						td(ng-bind-html="item.product.description")
+						td(ng-bind="item.product.cost | currency: $ : 2")
+						td(ng-bind="item.quantity")
+						td(ng-bind="(item.amount = item.product.cost * item.quantity) | currency: $ : 2")
+						td(ng-bind="item.product.created | date : 'MMMM d, yyyy  h:mm a'")
+			.pull-right
+				.lead(ng-bind="'Amount:' + (order.amount | currency: $ : 2)")
+			.clearfix
+			hr
+
+

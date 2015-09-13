@@ -1,0 +1,45 @@
+extends ../../layout
+block content
+	include ../../partials/navbar
+	.container(ng-app="categoriesModule", ng-controller="showCategoriesController")
+		.row
+			.col-xs-12
+				include ../../partials/breadcrumbs
+				.pull-left.lead= title
+				.pull-right
+					button.btn.btn-link(type="button" ng-click="newProduct()")
+						i.glyphicon.glyphicon-plus
+				.clearfix
+				dl
+					dt Category name
+					dd(ng-bind="category.name")
+					dt Category description
+					dd(ng-bind="category.description")
+				hr
+				.pull-left.lead Products
+				.pull-right
+					input.form-control(type="text", placeholder="Search", ng-model="search")
+				.clearfix
+				table.table.table-bordered.table-condensed
+					thead
+						tr
+							td Name
+							td Description
+							td Cost
+							td Created
+							td Actions
+					tbody
+						tr(ng-if="category.products.length == 0")
+							td(colspan="5") There are no products yet!
+						tr(ng-repeat="product in category.products | filter:search")
+							td(ng-bind="product.name")
+							td(ng-bind-html="product.description")
+							td(ng-bind="product.cost | currency: $ : 2")
+							td(ng-bind="category.created | date : 'MMMM d, yyyy  h:mm a'")
+							td
+								.btn-group(role="group")
+									button.btn.btn-link(ng-click="editProduct(product._id, $index)")
+										i.glyphicon.glyphicon-edit
+									button.btn.btn-link(ng-click="removeProduct(product._id, $index)")
+										i.glyphicon.glyphicon-remove
+
